@@ -1,0 +1,6 @@
+[metadata]
+name = myproject
+version = __version__
+
+[options]
+packages = find:
