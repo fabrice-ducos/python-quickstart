@@ -13,7 +13,6 @@ help:
 	@echo "install: install the package"
 	@echo "version: update the version (for maintainers only)"
 	@echo "clean: clean build artifacts"
-	@echo "clean-venv|clean-env: delete the virtual environment"
 
 .PHONY: build
 build:
