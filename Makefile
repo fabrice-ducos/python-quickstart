@@ -2,9 +2,11 @@ PROJECT = myproject
 
 PYTHON=python3
 PIP=pip3
+WHEEL=dist/*.whl
+VENV=venv
 
 .PHONY: all
-all: build
+all: dist
 
 .PHONY: help
 help:
@@ -13,14 +15,15 @@ help:
 	@echo "install: install the package"
 	@echo "version: update the version (for maintainers only)"
 	@echo "clean: clean build artifacts"
+	@echo "venv: create a virtual environment for testing purposes"
+	@echo "clean-venv: delete the virtual environment"
 
-.PHONY: build
-build:
+dist:
 	$(PIP) install build && $(PYTHON) -m build
 
 .PHONY: install
-install:
-	$(PYTHON) setup.py install
+install: $(WHEEL)
+	$(PIP) install $(WHEEL)
 
 .PHONY: tag version
 tag version:
@@ -32,4 +35,10 @@ clean:
 	-rm -rf __pycache__ *.pyc
 	-rm -rf build dist $(PROJECT).egg-info
 
+$(VENV):
+	$(PYTHON) -m venv $(VENV) && source $(VENV)/bin/activate && $(PIP) install --upgrade pip && $(PIP) install -r requirements.txt 
+
+.PHONY: clean-venv
+clean-venv:
+	-rm -rf $(VENV)
 
