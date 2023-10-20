@@ -1,7 +1,15 @@
+[project]
+name = "myproject"
+version = "0.1.0"
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
 [build-system]
 requires = [
   "setuptools",
-  "wheel",
+  "wheel"
 ]
 build-backend = "setuptools.build_meta"
 
