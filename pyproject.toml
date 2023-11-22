@@ -16,7 +16,7 @@ classifiers = [
 ]
 
 [tool.setuptools]
-package-dir = {"myproject" = "src/myproject"}
+package-dir = {"myproject" = "myproject"}
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
@@ -30,7 +30,7 @@ build-backend = "setuptools.build_meta"
 
 [project.scripts]
 # scheme: entry-point = "mypackage.myproject:main_cli"
-hello = "src.myproject.__main__:main"
+hello = "myproject.hello.__main__:main"
 
 [project.urls]
 "Homepage" = "https://gitlab.univ-lille.fr/fabrice.ducos/python-minimal-package"
