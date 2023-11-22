@@ -43,7 +43,7 @@ test: test-package
 
 .PHONY: test-package
 test-package:
-	$(ENTRYPOINT)
+	$(ENTRYPOINT) && $(ENTRYPOINT) $(USER)
 
 dist: $(VENV)
 	$(PIP) install build && $(PYTHON) -m build
