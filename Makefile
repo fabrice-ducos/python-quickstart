@@ -26,6 +26,10 @@ help:
 install: $(WHEEL)
 	$(PIP) install $(WHEEL)
 
+.PHONY: uninstall
+uninstall:
+	$(PIP) uninstall $(PROJECT)
+
 $(WHEEL): dist
 
 .PHONY: test
