@@ -3,6 +3,9 @@ name = "myproject"
 version = "0.1.0"
 dynamic = ["dependencies"]
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
 
@@ -15,7 +18,7 @@ build-backend = "setuptools.build_meta"
 
 [project.scripts]
 # scheme: entry-point = "mypackage.myproject:main_cli"
-hello = "myproject.hello"
+hello = "myproject.hello.main"
 
 [project.urls]
 "Homepage" = "https://gitlab.univ-lille.fr/fabrice.ducos/python-minimal-package"

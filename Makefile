@@ -15,6 +15,7 @@ help:
 	@echo "help: display this help"
 	@echo "build: build the package"
 	@echo "install: install the package"
+	@echo "test: run the tests"
 	@echo "version: update the version (for maintainers only)"
 	@echo "clean: clean build artifacts (__pycache__, pyc, ... but not the virtual environment)"
 	@echo "venv: create a virtual environment for testing purposes"
@@ -26,6 +27,13 @@ install: $(WHEEL)
 	$(PIP) install $(WHEEL)
 
 $(WHEEL): dist
+
+.PHONY: test
+test: test-package
+
+.PHONY: test-package
+test-package:
+	$(PYTHON) $(WHEEL)
 
 dist: $(VENV)
 	$(PIP) install build && $(PYTHON) -m build
@@ -46,6 +54,7 @@ clean:
 	-find $(SRC_DIR) -name '__pycache__' | xargs -I {} rm -rfv {}
 	-find $(SRC_DIR) -name '*~' | xargs -I {} rm -rfv {}
 	-find $(SRC_DIR) -name '*.pyc' | xargs -I {} rm -rfv {}
+	-find $(SRC_DIR) -name '*.egg-info' | xargs -I {} rm -rfv {}
 	-rm -rf build dist $(PROJECT).egg-info
 
 .PHONY: cleanenv clean-env cleanvenv clean-venv
