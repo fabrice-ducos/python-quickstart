@@ -7,6 +7,7 @@ WHEEL=dist/*.whl
 DEFAULT_CFG=default-cfg
 SRC_DIR=myproject
 ENTRYPOINT=$(VENV)/bin/hello
+INIT_SCRIPT=./.init.sh
 
 .PHONY: all
 all: install
@@ -14,6 +15,7 @@ all: install
 .PHONY: help
 help:
 	@echo "help: display this help"
+	@echo "init: initialize the project"
 	@echo "build: build the package"
 	@echo "install: install the package in the virtual environment"
 	@echo "uninstall: uninstall the package in the virtual environment"
@@ -35,6 +37,14 @@ uninstall:
 .PHONY: uninstall-forcibly
 uninstall-forcibly:
 	yes | $(PIP) uninstall $(PROJECT)
+
+.PHONY: init
+init: $(INIT_SCRIPT)
+	$(INIT_SCRIPT) && rm -f $(INIT_SCRIPT)
+
+$(INIT_SCRIPT):
+	@echo "The initialization script $(INIT_SCRIPT) could not be found. Either the project was already initialized, or the script was deleted erroneously." ; \
+	echo "If you do need the script, you can get a copy at https://gitlab.univ-lille.fr/fabrice.ducos/python-minimal-package" && false
 
 $(WHEEL): dist
 
