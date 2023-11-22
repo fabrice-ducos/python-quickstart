@@ -57,7 +57,7 @@ $(VENV): .env
 
 .PHONY: tag version
 tag version:
-	@echo "New version (form x.y.z)? " && read version && sed -e "s/__version__/$$version/" setup.cfg.template > setup.cfg && echo "git add setup.cfg && git commit -m 'Version set to $$version' && git tag v$$version && git push && git push --tag" 
+	@echo "New version (form x.y.z)? " && read version && sed -e "s/__project__/$(PROJECT)/;s/__version__/$$version/" setup.cfg.template > setup.cfg && echo "git add setup.cfg && git commit -m 'Version set to $$version' && git tag v$$version && git push && git push --tag" 
 
 .PHONY: clean
 clean: uninstall-forcibly

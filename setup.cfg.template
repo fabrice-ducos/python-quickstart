@@ -1,5 +1,5 @@
 [metadata]
-name = myproject
+name = __project__
 version = __version__
 
 [options]
