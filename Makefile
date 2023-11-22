@@ -50,7 +50,7 @@ clean:
 
 .PHONY: cleanenv clean-env cleanvenv clean-venv
 cleanenv clean-env cleanvenv clean-venv:
-	-rm -rf $(VENV)
+	-rm -rf $(VENV) .env
 
 .PHONY: cleanall clean-all
 cleanall clean-all: clean clean-venv
