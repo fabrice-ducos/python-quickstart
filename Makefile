@@ -40,7 +40,7 @@ uninstall-forcibly:
 
 .PHONY: init
 init: $(INIT_SCRIPT)
-	$(INIT_SCRIPT) && rm -f $(INIT_SCRIPT)
+	$(INIT_SCRIPT) && rm -i $(INIT_SCRIPT)
 
 $(INIT_SCRIPT):
 	@echo "The initialization script $(INIT_SCRIPT) could not be found. Either the project was already initialized, or the script was deleted erroneously." ; \

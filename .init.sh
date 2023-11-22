@@ -14,4 +14,4 @@ do
   sed -i '' "s/$default_name/$project/g" $input_file
 done
 
-mv -v $default_name $module_name
+mv -v $default_name $project
