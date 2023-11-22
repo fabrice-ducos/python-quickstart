@@ -1,0 +1,2 @@
+# configuration file containing environment variables (recognized by the Python dotenv module)
+# add here environment variables for the project (without export or setenv)

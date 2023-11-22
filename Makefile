@@ -1,9 +1,11 @@
 PROJECT = myproject
 
-PYTHON=python3
-PIP=pip3
+VENV=.venv
+PYTHON=$(VENV)/bin/python
+PIP=$(VENV)/bin/pip
 WHEEL=dist/*.whl
-VENV=venv
+DEFAULT_CFG=default-cfg
+SRC_DIR=src
 
 .PHONY: all
 all: dist
@@ -14,16 +16,26 @@ help:
 	@echo "build: build the package"
 	@echo "install: install the package"
 	@echo "version: update the version (for maintainers only)"
-	@echo "clean: clean build artifacts"
+	@echo "clean: clean build artifacts (__pycache__, pyc, ... but not the virtual environment)"
 	@echo "venv: create a virtual environment for testing purposes"
-	@echo "clean-venv: delete the virtual environment"
-
-dist:
-	$(PIP) install build && $(PYTHON) -m build
+	@echo "clean-venv|clean-env|cleanvenv|cleanenv: delete the virtual environment"
+	@echo "clean-all|cleanall: delete build artifacts and the virtual environment"
 
 .PHONY: install
 install: $(WHEEL)
 	$(PIP) install $(WHEEL)
+
+$(WHEEL): dist
+
+dist: $(VENV)
+	$(PIP) install build && $(PYTHON) -m build
+
+$(VENV): .env
+	python3 -m venv $(VENV) && source $(VENV)/bin/activate && $(PIP) install --upgrade pip && $(PIP) install -r requirements.txt 
+
+# configuration file containing environment variables (recognized by the Python dotenv module)
+.env:
+	cp $(DEFAULT_CFG)/dotenv.dist .env
 
 .PHONY: tag version
 tag version:
@@ -31,14 +43,14 @@ tag version:
 
 .PHONY: clean
 clean:
-	-rm -f *~
-	-rm -rf __pycache__ *.pyc
+	-find $(SRC_DIR) -name '__pycache__' | xargs -I {} rm -rfv {}
+	-find $(SRC_DIR) -name '*~' | xargs -I {} rm -rfv {}
+	-find $(SRC_DIR) -name '*.pyc' | xargs -I {} rm -rfv {}
 	-rm -rf build dist $(PROJECT).egg-info
 
-$(VENV):
-	$(PYTHON) -m venv $(VENV) && source $(VENV)/bin/activate && $(PIP) install --upgrade pip && $(PIP) install -r requirements.txt 
-
-.PHONY: clean-venv
-clean-venv:
+.PHONY: cleanenv clean-env cleanvenv clean-venv
+cleanenv clean-env cleanvenv clean-venv:
 	-rm -rf $(VENV)
 
+.PHONY: cleanall clean-all
+cleanall clean-all: clean clean-venv
