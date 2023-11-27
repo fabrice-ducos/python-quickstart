@@ -30,11 +30,11 @@ help:
 
 .PHONY: install
 install: $(WHEEL)
-	$(PIP) install $(WHEEL)
+	pip install $(WHEEL)
 
 .PHONY: uninstall
 uninstall:
-	$(PIP) uninstall $(PROJECT)
+	pip uninstall $(PROJECT)
 
 .PHONY: uninstall-forcibly
 uninstall-forcibly:
