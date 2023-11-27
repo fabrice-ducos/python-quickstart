@@ -30,7 +30,7 @@ build-backend = "setuptools.build_meta"
 
 [project.scripts]
 # scheme: entry-point = "mypackage.myproject:main_cli"
-hello = "myproject.hello:main"
+main = "myproject.main:main"
 
 [project.urls]
 "Homepage" = "https://gitlab.univ-lille.fr/fabrice.ducos/python-minimal-package"

@@ -6,7 +6,7 @@ PIP=$(VENV)/bin/pip
 WHEEL=dist/*.whl
 DEFAULT_CFG=default-cfg
 SRC_DIR=myproject
-ENTRYPOINT=$(VENV)/bin/hello
+ENTRYPOINT=$(VENV)/bin/main
 INIT_SCRIPT=./.init.sh
 
 .PHONY: all
@@ -15,10 +15,12 @@ all: install
 .PHONY: help
 help:
 	@echo "help: display this help"
+	@echo "dev|run-dev|start-dev: run the package in development mode, from the source directory"
 	@echo "init: initialize the project"
 	@echo "build: build the package"
 	@echo "install: install the package in the virtual environment"
 	@echo "uninstall: uninstall the package in the virtual environment"
+	@echo "run|start: run the package"
 	@echo "test: run the tests"
 	@echo "version: update the version (for maintainers only)"
 	@echo "venv: create a virtual environment for testing purposes"
@@ -47,6 +49,14 @@ $(INIT_SCRIPT):
 	echo "If you do need the script, you can get a copy at https://gitlab.univ-lille.fr/fabrice.ducos/python-minimal-package" && false
 
 $(WHEEL): dist
+
+.PHONY: run start
+run start: $(ENTRYPOINT)
+	$(ENTRYPOINT)
+
+.PHONY: dev run-dev start-dev
+dev run-dev start-dev: $(ENTRYPOINT)
+	$(SRC_DIR)/main.py
 
 .PHONY: test
 test: test-package
