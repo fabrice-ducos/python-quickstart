@@ -33,5 +33,5 @@ build-backend = "setuptools.build_meta"
 main = "myproject.main:main"
 
 [project.urls]
-"Homepage" = "https://gitlab.univ-lille.fr/fabrice.ducos/python-minimal-package"
-"Bug Tracker" = "https://gitlab.univ-lille.fr/fabrice.ducos/python-minimal-package/-/issues"
+"Homepage" = "https://gitlab.univ-lille.fr/path/to/myproject"
+"Bug Tracker" = "https://gitlab.univ-lille.fr/path/to/myproject/-/issues"
