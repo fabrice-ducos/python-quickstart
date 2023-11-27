@@ -23,7 +23,6 @@ help:
 	@echo "run|start: run the package"
 	@echo "test: run the tests"
 	@echo "version: update the version (for maintainers only)"
-	@echo "venv: create a virtual environment for testing purposes"
 	@echo "clean: clean build artifacts (__pycache__, pyc, ... but not the virtual environment) and uninstall the package in the virtual environment"
 	@echo "clean-venv|clean-env|cleanvenv|cleanenv: delete the virtual environment"
 	@echo "clean-all|cleanall: delete build artifacts and the virtual environment"
