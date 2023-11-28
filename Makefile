@@ -7,6 +7,7 @@ TESTRUNNER=$(PYTHON) -m unittest
 WHEEL=dist/*.whl
 DEFAULT_CFG=default-cfg
 SRC_DIR=myproject
+TEST_DIR=tests
 ENTRYPOINT=$(VENV)/bin/main
 INIT_SCRIPT=./.init.sh
 
@@ -97,6 +98,10 @@ clean: uninstall-forcibly
 	-find $(SRC_DIR) -name '*~' | xargs -I {} rm -rfv {}
 	-find $(SRC_DIR) -name '*.pyc' | xargs -I {} rm -rfv {}
 	-find $(SRC_DIR) -name '*.egg-info' | xargs -I {} rm -rfv {}
+	-find $(TEST_DIR) -name '__pycache__' | xargs -I {} rm -rfv {}
+	-find $(TEST_DIR) -name '*~' | xargs -I {} rm -rfv {}
+	-find $(TEST_DIR) -name '*.pyc' | xargs -I {} rm -rfv {}
+	-find $(TEST_DIR) -name '*.egg-info' | xargs -I {} rm -rfv {}
 	-rm -rf build dist $(PROJECT).egg-info
 
 .PHONY: cleanenv clean-env cleanvenv clean-venv
