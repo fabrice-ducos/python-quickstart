@@ -22,8 +22,9 @@ help:
 	@echo "install: install the package in the virtual environment"
 	@echo "uninstall: uninstall the package in the virtual environment"
 	@echo "run|start: run the package"
-	@echo "test: run all the tests"
+	@echo "test|tests: run all the tests"
 	@echo "utest|unit-test: run the unit tests"
+	@echo "e2e|e2e-test|e2e-tests: run end-to-end tests"
 	@echo "test-package: test the package (the wheel file)"
 	@echo "version: update the version (for maintainers only)"
 	@echo "clean: clean build artifacts (__pycache__, pyc, ... but not the virtual environment) and uninstall the package in the virtual environment"
@@ -60,16 +61,20 @@ run start: $(ENTRYPOINT)
 dev run-dev start-dev: $(ENTRYPOINT)
 	$(SRC_DIR)/main.py
 
-.PHONY: test
-test: test-package unit-test
+.PHONY: test tests
+test tests: unit-tests e2e-tests test-package
+
+.PHONY: e2e e2e-test e2e-tests
+e2e e2e-test e2e-tests:
+	@echo "No end-to-end test"
 
 .PHONY: test-package
 test-package:
 	$(ENTRYPOINT) && $(ENTRYPOINT) $(USER)
 
 # syntax: for a file tests/tests_module_name.py, use $(TESTRUNNER) tests.tests_module_name (without the extension)
-.PHONY: unit-test utest
-unit-test utest:
+.PHONY: unit-test unit-tests utest
+unit-test unit-tests utest:
 	$(TESTRUNNER) tests.tests
 
 dist: $(VENV)
