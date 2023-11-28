@@ -15,7 +15,7 @@ read email
 # hyphens are not allowed in Python modules, replace them with underscores
 project=`echo $project | tr - _`
 
-for input_file in setup.cfg Makefile pyproject.toml
+for input_file in setup.cfg Makefile pyproject.toml tests/tests.py
 do
   sed -i '' "s/$default_name/$project/g
 s/__author__/$author/g
