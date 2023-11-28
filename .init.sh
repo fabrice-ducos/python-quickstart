@@ -8,7 +8,7 @@ echo -n "Name of the project without space)? "
 read project
 project=${project:-$default_project}
 
-echo -n "Author's name (e.g. $default_project)? "
+echo -n "Author's name (e.g. $default_author)? "
 read author
 author=${author:-$default_author}
 
