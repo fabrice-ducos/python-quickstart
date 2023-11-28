@@ -3,6 +3,7 @@ PROJECT = myproject
 VENV=.venv
 PYTHON=$(VENV)/bin/python
 PIP=$(VENV)/bin/pip
+TESTRUNNER=$(PYTHON) -m unittest
 WHEEL=dist/*.whl
 DEFAULT_CFG=default-cfg
 SRC_DIR=myproject
@@ -21,7 +22,9 @@ help:
 	@echo "install: install the package in the virtual environment"
 	@echo "uninstall: uninstall the package in the virtual environment"
 	@echo "run|start: run the package"
-	@echo "test: run the tests"
+	@echo "test: run all the tests"
+	@echo "utest|unit-test: run the unit tests"
+	@echo "test-package: test the package (the wheel file)"
 	@echo "version: update the version (for maintainers only)"
 	@echo "clean: clean build artifacts (__pycache__, pyc, ... but not the virtual environment) and uninstall the package in the virtual environment"
 	@echo "clean-venv|clean-env|cleanvenv|cleanenv: delete the virtual environment"
@@ -58,11 +61,16 @@ dev run-dev start-dev: $(ENTRYPOINT)
 	$(SRC_DIR)/main.py
 
 .PHONY: test
-test: test-package
+test: test-package unit-test
 
 .PHONY: test-package
 test-package:
 	$(ENTRYPOINT) && $(ENTRYPOINT) $(USER)
+
+# syntax: for a file tests/tests_module_name.py, use $(TESTRUNNER) tests.tests_module_name (without the extension)
+.PHONY: unit-test utest
+unit-test utest:
+	$(TESTRUNNER) tests.tests
 
 dist: $(VENV)
 	$(PIP) install build && $(PYTHON) -m build

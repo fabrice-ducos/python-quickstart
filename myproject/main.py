@@ -7,15 +7,15 @@ import sys
 
 def say_hello(name = None):
   if (name is None): name = "World!"
-  print("Hello {}".format(name))
+  return "Hello {}".format(name)
 
 def main():
    argv = sys.argv
    if (len(argv) < 2):
-     say_hello()
+     print(say_hello())
    else:
      name = argv[1]
-     say_hello(name)
+     print(say_hello(name))
 
 if __name__ == '__main__':
     main()
