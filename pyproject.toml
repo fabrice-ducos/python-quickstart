@@ -2,7 +2,7 @@
 name = "myproject"
 dynamic = ["dependencies", "version"]
 authors = [
-  { name="__author__", email="__email__" },
+  { name="John Doe", email="john.doe@example.com" },
 ]
 
 description = "Description of the project"

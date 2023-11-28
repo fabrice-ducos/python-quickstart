@@ -22,8 +22,8 @@ project=`echo $project | tr - _`
 for input_file in setup.cfg Makefile pyproject.toml tests/tests.py
 do
   sed -i '' "s/$default_project/$project/g
-             s/__author__/$author/g
-             s/__email__/$email/g" $input_file
+             s/$default_author/$author/g
+             s/$default_email/$email/g" $input_file
 done
 
 mv -v $default_project $project
