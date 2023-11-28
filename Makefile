@@ -32,15 +32,15 @@ help:
 
 .PHONY: install
 install: $(WHEEL)
-	pip install $(WHEEL)
+	$(PIP) install $(WHEEL)
 
 .PHONY: uninstall
 uninstall:
-	pip uninstall $(PROJECT)
+	-$(PIP) uninstall $(PROJECT)
 
 .PHONY: uninstall-forcibly
 uninstall-forcibly:
-	yes | $(PIP) uninstall $(PROJECT)
+	-yes | $(PIP) uninstall $(PROJECT)
 
 .PHONY: init
 init: $(INIT_SCRIPT)
