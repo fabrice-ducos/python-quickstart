@@ -54,6 +54,9 @@ $(INIT_SCRIPT):
 
 $(WHEEL): dist
 
+$(ENTRYPOINT):
+	$(MAKE) install
+
 .PHONY: run start
 run start: $(ENTRYPOINT)
 	$(ENTRYPOINT)
