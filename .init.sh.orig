@@ -31,7 +31,10 @@ mv -v $default_project $project
 if [ -d .git ] ; then
    echo -n "$0: resetting the git repository (in most cases, you should start from a clean repository) (y|n)? "
    read confirmation
-   [ "$confirmation" = 'y' ] && rm -rf .git && git init
-   [ "$confirmation" != 'y' ] && echo "$0: the .git repository was not reset. You can always reset it yourself with the commands: rm -rf .git && git init" 1>&2
+   if [ "$confirmation" = 'y' ] ; then
+       rm -rf .git && git init
+   else
+       echo "$0: the .git repository was not reset. You can always reset it yourself with the commands: rm -rf .git && git init" 1>&2
+   fi
 fi
 
