@@ -3,7 +3,7 @@
 This project provides a starter kit for a Python project, providing a default but minimal framework
 for packaging an application, relieving the developer from this tedious task.
 
-For the user, it provides a common way to build and launch the application, irrespective to the language (here, Python).
+For the user, it provides a common way to build and launch the application, irrespective of the language (here, Python).
 
 When deploying the project, the user should only have to type `make` in order to build the project, and `make run` or `make start` (these are synonyms) for launching it.
 
