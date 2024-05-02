@@ -13,8 +13,7 @@ When deploying the project, the user should only have to type `make` in order to
   - by ssh:   `git clone git@github.com:fabrice-ducos/python-quickstart.git your-project-name`
   - by https: `git clone https://github.com/fabrice-ducos/python-quickstart.git your-project-name`
 
-2. Build and test the project:
-  `cd your-project-name`
+2. `cd your-project-name`
 
 3. Initialize the project:
   `make init`
