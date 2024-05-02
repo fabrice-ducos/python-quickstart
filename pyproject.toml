@@ -33,5 +33,5 @@ build-backend = "setuptools.build_meta"
 main = "myproject.main:main"
 
 [project.urls]
-"Homepage" = "https://gitlab.univ-lille.fr/path/to/myproject"
-"Bug Tracker" = "https://gitlab.univ-lille.fr/path/to/myproject/-/issues"
+"Homepage" = "https://repository-server/path/to/myproject"
+"Bug Tracker" = "https://repository-server/path/to/myproject/-/issues"
