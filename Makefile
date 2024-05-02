@@ -31,7 +31,7 @@ help:
 	@echo "build: build the package"
 	@echo "install: install in the host environment (not implemented yet)"
 	@echo "uninstall: uninstall from the host environment, when possible (not implemented yet)"
-	@echo "install-in-venv: install the package in the virtual environment"
+	@echo "install-in-venv: install the package in the virtual environment (is usually done automatically by make)"
 	@echo "uninstall-from-venv: uninstall the package in the virtual environment"
 	@echo "run|start|launch: run the package"
 	@echo "test|tests: run all the tests"
