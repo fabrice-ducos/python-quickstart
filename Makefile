@@ -74,11 +74,11 @@ $(WHEEL): dist
 $(ENTRYPOINT):
 	$(MAKE) install
 
-.PHONY: run start
-run starti launch: $(ENTRYPOINT)
+.PHONY: run start launch
+run start launch: $(ENTRYPOINT)
 	$(ENTRYPOINT)
 
-.PHONY: dev run-dev start-dev
+.PHONY: dev run-dev start-dev launch-dev
 dev run-dev start-dev launch-dev: $(ENTRYPOINT)
 	$(SRC_DIR)/main.py
 
