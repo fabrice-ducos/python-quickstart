@@ -2,10 +2,11 @@ PROJECT = myproject
 
 VENV=.venv
 PYTHON := python3
+PIP := pip3
 PYTHON_VERSION = $(shell $(PYTHON) --version | cut -d' ' -f 2)
 MIN_PYTHON_VERSION = 3.11
 VENV_PYTHON=$(VENV)/bin/python
-PIP=$(VENV)/bin/pip
+VENV_PIP=$(VENV)/bin/pip
 TESTRUNNER=$(VENV_PYTHON) -m unittest
 WHEEL=dist/*.whl
 DEFAULT_CFG=default-cfg
@@ -20,17 +21,19 @@ define_version := version() { \
 } 
 
 .PHONY: all
-all: install
+all: install-in-venv
 
 .PHONY: help
 help:
 	@echo "help: display this help"
-	@echo "dev|run-dev|start-dev: run the package in development mode, from the source directory"
+	@echo "dev|run-dev|start-dev|launch-dev: run the package in development mode, from the source directory"
 	@echo "init: initialize the project"
 	@echo "build: build the package"
-	@echo "install: install the package in the virtual environment"
-	@echo "uninstall: uninstall the package in the virtual environment"
-	@echo "run|start: run the package"
+	@echo "install: install in the host environment (not implemented yet)"
+	@echo "uninstall: uninstall from the host environment, when possible (not implemented yet)"
+	@echo "install-in-venv: install the package in the virtual environment"
+	@echo "uninstall-from-venv: uninstall the package in the virtual environment"
+	@echo "run|start|launch: run the package"
 	@echo "test|tests: run all the tests"
 	@echo "utest|unit-test: run the unit tests"
 	@echo "e2e|e2e-test|e2e-tests: run end-to-end tests"
@@ -43,25 +46,28 @@ help:
 	@echo "PYTHON: $(PYTHON)"
 	@echo "Detected version of PYTHON: $(PYTHON_VERSION)"
 
-.PHONY: install
-install: $(WHEEL)
-	$(PIP) install $(WHEEL)
+.PHONY: install-in-venv
+install-in-venv: $(WHEEL)
+	$(VENV_PIP) install $(WHEEL)
 
-.PHONY: uninstall
-uninstall:
-	-$(PIP) uninstall $(PROJECT)
+.PHONY: uninstall-fron-venv
+uninstall-from-venv:
+	-$(VENV_PIP) uninstall $(PROJECT)
 
 .PHONY: uninstall-forcibly
 uninstall-forcibly:
-	-yes | $(PIP) uninstall $(PROJECT)
+	-yes | $(VENV_PIP) uninstall $(PROJECT)
 
 .PHONY: init
 init: $(INIT_SCRIPT)
-	$(INIT_SCRIPT) && rm -i $(INIT_SCRIPT)
+	$(INIT_SCRIPT) && cp $(INIT_SCRIPT) $(INIT_SCRIPT).bak
 
-$(INIT_SCRIPT):
-	@echo "The initialization script $(INIT_SCRIPT) could not be found. Either the project was already initialized, or the script was deleted erroneously." ; \
-	echo "If you do need the script, you can get a copy at https://gitlab.univ-lille.fr/fabrice.ducos/python-minimal-package" && false
+$(INIT_SCRIPT): $(INIT_SCRIPT).orig
+	cp $(INIT_SCRIPT).orig $(INIT_SCRIPT)
+
+$(INIT_SCRIPT).orig:
+	@echo "The initialization script $(INIT_SCRIPT).orig could not be found. Maybe it was deleted erroneously." ; \
+	echo "If you do need the script, you can get a copy at https://github.com/fabrice-ducos/python-quickstart" && false
 
 $(WHEEL): dist
 
@@ -69,11 +75,11 @@ $(ENTRYPOINT):
 	$(MAKE) install
 
 .PHONY: run start
-run start: $(ENTRYPOINT)
+run starti launch: $(ENTRYPOINT)
 	$(ENTRYPOINT)
 
 .PHONY: dev run-dev start-dev
-dev run-dev start-dev: $(ENTRYPOINT)
+dev run-dev start-dev launch-dev: $(ENTRYPOINT)
 	$(SRC_DIR)/main.py
 
 .PHONY: test tests
@@ -93,11 +99,10 @@ unit-test unit-tests utest:
 	$(TESTRUNNER) tests.tests
 
 dist: $(VENV)
-	$(PIP) install build && $(VENV_PYTHON) -m build
+	$(VENV_PIP) install build && $(VENV_PYTHON) -m build
 
 $(VENV): check-python .env
-	$(PYTHON) -m venv $(VENV) && source $(VENV)/bin/activate && $(PIP) install --upgrade pip && $(PIP) install -r requirements.txt 
-
+	$(PYTHON) -m venv $(VENV) && $(VENV_PIP) install --upgrade pip && $(VENV_PIP) install -r requirements.txt 
 
 .PHONY: check-python
 check-python:
