@@ -1,15 +1,23 @@
 PROJECT = myproject
 
 VENV=.venv
-PYTHON=$(VENV)/bin/python
+PYTHON := python3
+PYTHON_VERSION = $(shell $(PYTHON) --version | cut -d' ' -f 2)
+MIN_PYTHON_VERSION = 3.11
+VENV_PYTHON=$(VENV)/bin/python
 PIP=$(VENV)/bin/pip
-TESTRUNNER=$(PYTHON) -m unittest
+TESTRUNNER=$(VENV_PYTHON) -m unittest
 WHEEL=dist/*.whl
 DEFAULT_CFG=default-cfg
 SRC_DIR=myproject
 TEST_DIR=tests
 ENTRYPOINT=$(VENV)/bin/main
 INIT_SCRIPT=./.init.sh
+
+# solution credited to @yairchu at https://stackoverflow.com/questions/4023830/how-to-compare-two-strings-in-dot-separated-version-format-in-bash
+define_version := version() { \
+  echo "$$@" | awk -F. '{ printf("%d%03d%03d%03d\n", $$1,$$2,$$3,$$4); }'; \
+} 
 
 .PHONY: all
 all: install
@@ -31,6 +39,9 @@ help:
 	@echo "clean: clean build artifacts (__pycache__, pyc, ... but not the virtual environment) and uninstall the package in the virtual environment"
 	@echo "clean-venv|clean-env|cleanvenv|cleanenv: delete the virtual environment"
 	@echo "clean-all|cleanall: delete build artifacts and the virtual environment"
+	@echo
+	@echo "PYTHON: $(PYTHON)"
+	@echo "Detected version of PYTHON: $(PYTHON_VERSION)"
 
 .PHONY: install
 install: $(WHEEL)
@@ -82,10 +93,15 @@ unit-test unit-tests utest:
 	$(TESTRUNNER) tests.tests
 
 dist: $(VENV)
-	$(PIP) install build && $(PYTHON) -m build
+	$(PIP) install build && $(VENV_PYTHON) -m build
 
-$(VENV): .env
-	python3 -m venv $(VENV) && source $(VENV)/bin/activate && $(PIP) install --upgrade pip && $(PIP) install -r requirements.txt 
+$(VENV): check-python .env
+	$(PYTHON) -m venv $(VENV) && source $(VENV)/bin/activate && $(PIP) install --upgrade pip && $(PIP) install -r requirements.txt 
+
+
+.PHONY: check-python
+check-python:
+	@$(define_version) && if [ $$(version "$(PYTHON_VERSION)") -lt $$(version "$(MIN_PYTHON_VERSION)") ]; then echo "Python version $(PYTHON_VERSION) is too old. Please use at least $(MIN_PYTHON_VERSION). You can use: make PYTHON=/path/to/python in order to set a proper Python interpreter." 1>&2; exit 1; fi
 
 # configuration file containing environment variables (recognized by the Python dotenv module)
 .env:
