@@ -41,6 +41,6 @@ Otherwise, return to step 6.
 
 ## Warnings and limitations
 
-* This is still a work in progress. It works for simple projects but may have
+* It is still a work in progress and may not be adapted to all use cases.
 * Windows operating systems are not yet supported
 
